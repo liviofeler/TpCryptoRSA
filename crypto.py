@@ -51,7 +51,7 @@ def primeNumber(start,end,tab_prime_number):
 print("valeur de sys ",sys.argv[0])
 if (len(sys.argv)>1):
     if (sys.argv[1]=="keygen"):
-        if(len(sys.argv)<=2 and sys.argv[1]=="keygen"):
+        if(len(sys.argv)<=2):
             print('Veuillez rentrer le fichier dans lequel rentrer la clé')
         else:
         ##########Génération de la clé publique ##########
@@ -124,7 +124,7 @@ if (len(sys.argv)>1):
             print("La valeur hexa de n est ",hex_n,"La valeur de d est ",hex_d )
 
             f2 = open(sys.argv[2]+".priv","w")
-            f2.write(" ---begin monRSA privateKe --- \n ")
+            f2.write(" ---begin monRSA privateKey --- \n ")
             f2.write(public_Key+'\n')
             f2.write(" ---end monRSA key --- ")
             f2 = open(sys.argv[2]+".priv","r")
@@ -132,11 +132,24 @@ if (len(sys.argv)>1):
             print(contenu)
             f2.close()
     if (sys.argv[1] == "crypt"):
-
-
+        if(len(sys.argv)<=2):
+            print("Aucun fichier n'a été rentré")
+        else:
+            fichier = open(sys.argv[2],"r")
+            contenu = fichier.read()
+            chaineAChercher = "---begin monRSA privateKey ---"
+            if chaineAChercher in contenu:
+                print ("La chaine est presente")
+                if (len(sys.argv)<=3):
+                    print("Rentrer le texte à crypter")
+                else:
+                    lines = fichier.readlines()
+            else:
+                print("Le fichier ne contient pas de clefs valide")
     #Si les paramètres sont différents de ceux attendus
-    if ((sys.argv[1] != "keygen") or(sys.argv[1] != "crypt") or (sys.argv[1] != "decrypt")):
+    if ((sys.argv[1] != "keygen") and (sys.argv[1] != "crypt") and (sys.argv[1] != "decrypt")):
+        print("bloc2")
         print("Rentrer un argument entre keygen + nom du fichier, crypt, decrypt")
-    #Si aucun paramètre n'est rentré
+    #Si aucun paramètrle n'est rentré
 else:
     print("aucun paramètre n'a été rentré")
